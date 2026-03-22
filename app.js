@@ -1,1 +1,67 @@
-document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-cart-count]").forEach((el)=>{el.textContent=cartCount()});document.querySelectorAll("[data-add-to-cart]").forEach((button)=>{button.addEventListener("click",()=>{addDemoToCart(Number(button.dataset.addToCart));document.querySelectorAll("[data-cart-count]").forEach((el)=>{el.textContent=cartCount()});button.textContent="Added"})});const cartContainer=document.getElementById("demo-cart-items");const totalContainer=document.getElementById("demo-cart-total");if(cartContainer&&totalContainer){const cart=getDemoCart();const items=cart.map((item)=>{const product=demoProducts.find((p)=>p.id===item.id);return product?{...product,qty:item.qty}:null}).filter(Boolean);if(!items.length){cartContainer.innerHTML=`<div class="empty-state"><h2>Your cart is empty.</h2><p class="hero-text mt-3">Add products from the home page.</p><a class="button button-primary mt-3" href="index.html#shop">Continue Shopping</a></div>`;totalContainer.textContent="Rs. 0"}else{cartContainer.innerHTML=items.map((item)=>`<div class="cart-row"><img src="${item.image}" alt="${item.name}"><div class="cart-row-main"><div><p class="product-tag mb-2">${item.category}</p><h3 class="mb-2">${item.name}</h3><p class="hero-text mb-0">${item.desc}</p></div><div class="cart-row-actions"><span class="product-price">${item.price}</span><span>Qty: ${item.qty}</span></div></div></div>`).join("");const total=items.reduce((sum,item)=>sum+Number(item.price.replace(/[^\d]/g,""))*item.qty,0);totalContainer.textContent=`Rs. ${total}`}}});
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-cart-count]").forEach((el) => {
+        el.textContent = cartCount();
+    });
+
+    document.querySelectorAll("[data-add-to-cart]").forEach((button) => {
+        button.addEventListener("click", () => {
+            addDemoToCart(Number(button.dataset.addToCart));
+            document.querySelectorAll("[data-cart-count]").forEach((el) => {
+                el.textContent = cartCount();
+            });
+            button.textContent = "Added";
+        });
+    });
+
+    const cartContainer = document.getElementById("demo-cart-items");
+    const totalContainer = document.getElementById("demo-cart-total");
+
+    if (cartContainer && totalContainer) {
+        const cart = getDemoCart();
+        const items = cart
+            .map((item) => {
+                const product = demoProducts.find((p) => p.id === item.id);
+                return product ? { ...product, qty: item.qty } : null;
+            })
+            .filter(Boolean);
+
+        if (!items.length) {
+            cartContainer.innerHTML = `
+                <div class="empty-state">
+                    <img src="img/jute-shopping-bag.jpg" alt="Empty cart eco bag" style="width:100%;max-width:260px;margin:0 auto 1rem;border-radius:18px;display:block;">
+                    <h2>Your cart is empty.</h2>
+                    <p class="hero-text mt-3">Add products from the home page.</p>
+                    <a class="button button-primary mt-3" href="index.html#shop">Continue Shopping</a>
+                </div>
+            `;
+            totalContainer.textContent = "Rs. 0";
+        } else {
+            cartContainer.innerHTML = items
+                .map(
+                    (item) => `
+                        <div class="cart-row">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-row-main">
+                                <div>
+                                    <p class="product-tag mb-2">${item.category}</p>
+                                    <h3 class="mb-2">${item.name}</h3>
+                                    <p class="hero-text mb-0">${item.desc}</p>
+                                </div>
+                                <div class="cart-row-actions">
+                                    <span class="product-price">${item.price}</span>
+                                    <span>Qty: ${item.qty}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                )
+                .join("");
+
+            const total = items.reduce((sum, item) => {
+                return sum + Number(item.price.replace(/[^\d]/g, "")) * item.qty;
+            }, 0);
+
+            totalContainer.textContent = `Rs. ${total}`;
+        }
+    }
+});
