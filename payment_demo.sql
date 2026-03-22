@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS payment_demo;
+
+USE payment_demo;
+
+CREATE TABLE IF NOT EXISTS payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    amount INT NOT NULL,
+    method VARCHAR(20) NOT NULL,
+    transaction_id VARCHAR(30) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
